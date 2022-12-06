@@ -11,15 +11,13 @@ namespace AzureBlob.Services
 {
     public class FileService : IFileService
     {
-        public async Task<string> UploadBase64Image(string base64Image, string container, string connection) 
+        public async Task<string> UploadBase64Image(string fileName, string base64Image, string container, string connection) 
         {
-            var fileName = "MeuArquivo222.jpg";
-
             var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(base64Image, "");
 
             byte[] imageBytes = Convert.FromBase64String(data);
 
-            var blobClient = new BlobClient(connection, container, "1/333/" + fileName);
+            var blobClient = new BlobClient(connection, container, fileName);
 
             using (var stream = new MemoryStream(imageBytes))
             {

@@ -6,7 +6,7 @@ namespace AzureBlob.Services
 {
     public interface IFileService
     {
-        Task<string> UploadBase64Image(string base64Image, string container, string connection);
+        Task<string> UploadBase64Image(string fileName, string base64Image, string container, string connection);
 
         Task<List<string>> GetFiles(string container, string connection, GetFilesModel fileModel);
 
