@@ -42,6 +42,22 @@ namespace AzureBlob.Controllers
 
             return Ok(new { arquivos = listaArquivos });
         }
+
+        //[HttpDelete]
+        //public async Task<IActionResult> DeleteFile([FromQuery] GetFilesModel command)
+        //{
+        //    var result = await _service.DeleteFile(_container, _connection, command);
+        
+        //    return Ok(new { result = result });
+        //}
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFile([FromQuery] DeleteFileModel command)
+        {
+            var result = await _service.DeleteFile(_container, _connection, command);
+
+            return Ok(new { result = result });
+        }
     }
 
 }

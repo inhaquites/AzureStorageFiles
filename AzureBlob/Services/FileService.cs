@@ -13,7 +13,7 @@ namespace AzureBlob.Services
     {
         public async Task<string> UploadBase64Image(string base64Image, string container, string connection) 
         {
-            var fileName = "MeuArquivo.jpg";
+            var fileName = "MeuArquivo222.jpg";
 
             var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(base64Image, "");
 
@@ -43,12 +43,23 @@ namespace AzureBlob.Services
                     var desm = item.Name.Split("/");
                     if (desm[0].Equals(fileModel.FormId) && desm[1].Equals(fileModel.FieldId))
                     {
-                        listaArquivos.Add(desm[2]);
+                        listaArquivos.Add(string.Format("https://anexos2022.blob.core.windows.net/{0}/{1}/{2}", fileModel.FormId, fileModel.FieldId, desm[2]));
                     }
                 }
             }
-
+            //https://anexos2022.blob.core.windows.net/formularios/1/333/MeuArquivo222.jpg
             return listaArquivos;
         }
-	}
+
+        public async Task<bool> DeleteFile(string container, string connection, DeleteFileModel deleteFileModel)
+        {
+            var blobContainerClient = new BlobContainerClient(connection, container);
+            
+            var path = string.Format("{0}/{1}/{2}", deleteFileModel.FormId, deleteFileModel.FieldId, deleteFileModel.FileName);
+            
+            var blob = blobContainerClient.GetBlobClient(path);
+
+            return await blob.DeleteIfExistsAsync();
+        }
+    }
 }
